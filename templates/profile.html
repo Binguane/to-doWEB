@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile</title>
+  <link rel="stylesheet" href="/static/css/profile.css">
+</head>
+<body>
+  <div class="profile-card">
+    <button class="btn" id="backBtn" onclick="goHome()"> Back </button>
+    <img src="/static/img/no-profile.png" alt="Profile Picture" class="profile-pic" />
+    <h2>{{ current_user.username }}</h2>
+    <p>Web Developer | Dreamer | Night Owl</p>
+    <button class="btn"> Edit Profile </button>
+    <button class="btn" onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    function goHome() {
+      window.location.href="{{ url_for('home_page') }}"
+    }
+
+    function logout() {
+      window.location.href="{{ url_for('logout') }}"
+    }
+  </script>
+
+</body>
+</html>
