@@ -1,7 +1,7 @@
 from app import app
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user, current_user
-from models import User
+from models import User, Task
 from db import db
 
 @app.route("/")
@@ -13,6 +13,7 @@ def home_page():
 @app.route("/profile/<username>")
 @login_required
 def profile_page(username):
+    flash("Login succefuly")
     return render_template("profile.html")
 
 @app.route("/form")
@@ -35,6 +36,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash("You've logged out")
     return redirect(url_for("form_page"))
 
 @app.route("/signup", methods=["POST"])
@@ -48,4 +50,17 @@ def signup():
     db.session.commit()
     login_user(new_user)
 
+    return redirect(url_for("home_page"))
+
+@app.route("/tasks", methods=["POST", "GET"])
+@login_required
+def tasks():
+    data = request.get_json()
+    task_text = data["taskText"]
+    print(task_text)
+
+    task = Task(task=task_text)
+    db.session.add(task)
+    db.session.commit()
+    
     return redirect(url_for("home_page"))

@@ -10,4 +10,5 @@ class User(UserMixin, db.Model):
 
 class Task(db.Model, UserMixin):
     __tablename__ = "Tasks"
-    pass
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    task = db.Column(db.String)
