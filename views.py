@@ -83,8 +83,7 @@ def edit_task(task_id):
 @app.route("/delete_task/<int:task_id>", methods=["POST"])
 @login_required
 def delete_task(task_id):
-
-    task = db.session.query(Task).filter_by(id=task_id).first
+    task = db.session.query(Task).filter_by(id=task_id).first()
     db.session.delete(task)
     db.session.commit()
 
