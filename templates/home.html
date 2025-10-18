@@ -6,9 +6,12 @@
     <title>To-Do App</title>
     <link rel="stylesheet" href="/static/css/home.css" />
   </head>
+
   <body>
     <!-- Floating Profile Button -->
-    <button id="profileBtn" onclick="goToProfile()">👤</button>
+    <button id="profileBtn" onclick="goToProfile()">
+      <img src="/static/img/profile.svg" alt="Profile" />
+    </button>
 
     <!-- Main App Container -->
     <main class="container">
@@ -27,6 +30,19 @@
 
       <ul id="taskList" class="task-list">
         <!--Tasks will automaticly be added here-->
+        {% for task in tasks %}
+        <li>
+          <span> {{ task.task }} </span>
+          <div class="btn-group">
+            <button onclick="editTask('{{ task.id }}')">
+              <img src="/static/img/edit.svg" alt="Edit task button" />
+            </button>
+            <button onclick="deleteTask('{{task.id}}')">
+              <img src="/static/img/delete.svg" alt="Delete task button" />
+            </button>
+          </div>
+        </li>
+        {%endfor%}
       </ul>
     </main>
 
@@ -37,45 +53,39 @@
         if (taskText) {
           const li = document.createElement("li");
 
-          const span = document.createElement("span");
-          span.textContent = taskText;
-          span.className = "task-text";
-          span.onclick = () => li.classList.toggle("completed");
-
-          const btnGroup = document.createElement("div");
-          btnGroup.className = "btn-group";
-
-          const editBtn = document.createElement("button");
-          editBtn.textContent = "✏️";
-          editBtn.onclick = () => editTask(span);
-
-          const deleteBtn = document.createElement("button");
-          deleteBtn.textContent = "❌";
-          deleteBtn.onclick = () => li.remove();
-
-          btnGroup.appendChild(editBtn);
-          btnGroup.appendChild(deleteBtn);
-
-          li.appendChild(span);
-          li.appendChild(btnGroup);
-          document.getElementById("taskList").appendChild(li);
-          input.value = "";
-
           fetch("/tasks", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({"taskText": taskText}),
+            body: JSON.stringify({ taskText: taskText }),
+          });
+
+          input.value = ""
+        }
+      }
+
+      function editTask(taskId) {
+        const newContent = prompt("Edit content for Task:");
+        if (newContent !== null) {
+          fetch(`/edit_task/${taskId}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ content: newContent }),
           });
         }
       }
 
-      function editTask(span) {
-        const newText = prompt("Edit your task:", span.textContent);
-        if (newText !== null && newText.trim()) {
-          span.textContent = newText.trim();
-        }
+      function deleteTask(taskId) {
+        fetch(`/edit_task/${taskId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({delete:"deleting content"}),
+        });
       }
 
       function goToProfile() {

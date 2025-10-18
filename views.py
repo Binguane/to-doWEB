@@ -8,12 +8,12 @@ from db import db
 @login_required
 def home_page():
     print(current_user)
-    return render_template("home.html")
+    tasks = db.session.query(Task).all()
+    return render_template("home.html", tasks=tasks)
 
 @app.route("/profile/<username>")
 @login_required
 def profile_page(username):
-    flash("Login succefuly")
     return render_template("profile.html")
 
 @app.route("/form")
@@ -49,8 +49,10 @@ def signup():
     db.session.add(new_user)
     db.session.commit()
     login_user(new_user)
+    flash("New user signed")
 
-    return redirect(url_for("home_page"))
+    flash("Signed up succefuly")
+    return redirect( url_for("home_page"))
 
 @app.route("/tasks", methods=["POST", "GET"])
 @login_required
@@ -62,5 +64,28 @@ def tasks():
     task = Task(task=task_text)
     db.session.add(task)
     db.session.commit()
-    
+
+    return redirect(url_for("home_page"))
+
+
+
+@app.route("/edit_task/<int:task_id>", methods=["POST"])
+@login_required
+def edit_task(task_id):
+    data = request.get_json()
+    content = data.get("content")
+    task = db.session.query(Task).filter_by(id=task_id).first()
+    task.task = content
+    db.session.commit()
+
+    return redirect(url_for("home_page"))
+
+@app.route("/delete_task/<int:task_id>", methods=["POST"])
+@login_required
+def delete_task(task_id):
+
+    task = db.session.query(Task).filter_by(id=task_id).first
+    db.session.delete(task)
+    db.session.commit()
+
     return redirect(url_for("home_page"))
