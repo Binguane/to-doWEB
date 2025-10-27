@@ -3,9 +3,7 @@ from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from models import User, Task
 from db import db
-from app import sock
 
-@sock.route("/")
 @login_required
 def home_page(wb):
     db.session.query(Task).all()
