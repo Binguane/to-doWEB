@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDooo</title>
+    <link rel="stylesheet" href="static/css/base.css" />
+    {% block styles %}
+    <!-- Link to css -->
+    {% endblock %}
+  </head>
+  <body>
+    {% block content %} {% endblock %}
+  </body>
+
+  <!--  home page script  -->
+
+  <script>
+    function addTask() {
+      const input = document.getElementById("taskInput");
+      const taskText = input.value.trim();
+      if (taskText) {
+        const li = document.createElement("li");
+
+        fetch("/tasks", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ taskText: taskText }),
+        });
+
+        input.value = "";
+      }
+    }
+
+    function editTask(taskId) {
+      const newContent = prompt("Edit content for Task:");
+
+      if (newContent !== null) {
+        fetch(`/edit_task/${taskId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content: newContent }),
+        });
+      }
+    }
+
+    function deleteTask(taskId) {
+      fetch(`/delete_task/${taskId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+    }
+
+    function goToProfile() {
+      window.location.href =
+        "{{ url_for('profile_page', username=current_user.username) }}";
+    }
+  </script>
+
+  <!-- profile page script -->
+
+  <script>
+    function goHome() {
+      window.location.href = "{{ url_for('home_page') }}";
+    }
+
+    function logout() {
+      window.location.href = "{{ url_for('logout') }}";
+    }
+  </script>
+</html>

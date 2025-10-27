@@ -1,91 +1,228 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-:root {
-  --primary: #000;
-  --secondary: #111;
-  --main: #ff69b4;
-  --text: #f8f8f8;
-  --action: rgba(119, 55, 119, 0.986);
-}
-
-.hidden {
-  display: none;
-}
-
-body {
-  font-family: "Poppins", sans-serif;
-  background-color: var(--primary);
-  color: #f8f8f8;
-  height: 100vh;
-  width: 100vw;
-}
-
 .wrapper {
-  width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-form {
-  background-color: var(--secondary);
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  border-radius: 8px;
-  min-width: 350px;
+.card-switch {
+  border: 1px solid rgb(0, 19, 128);
 
-  h1 {
-    margin: 20px;
-    text-align: center;
-    color: var(--main);
+  .card-side::after {
+    position: absolute;
+    content: "Sign up";
+    left: 70px;
+    top: 0;
+    width: 100px;
+    text-decoration: none;
+    color: var(--font-color);
+    font-weight: 600;
   }
 
-  input {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-bottom: 2px solid silver;
-    background-color: var(--primary);
-    border-radius: 1px;
+  .card-side::before {
+    position: absolute;
+    content: "Log in";
+    left: -70px;
+    top: 0;
+    width: 100px;
+    text-decoration: underline;
+    color: var(--font-color);
+    font-weight: 600;
+  }
+
+  .switch {
+    transform: translateY(-200px);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    width: 50px;
+    height: 20px;
+  }
+}
+
+.toggle {
+  opacity: 0;
+  width: 0;
+  height: 0;
+
+  &:checked + .slider {
+    background-color: var(--input-focus);
+  }
+
+  &:checked + .slider:before {
+    transform: translateX(30px);
+  }
+
+  &:checked ~ .card-side:before {
+    text-decoration: none;
+  }
+
+  &:checked ~ .card-side:after {
+    text-decoration: underline;
+  }
+}
+
+form {
+  background-color: transparent;
+
+  .flip-card__input {
+    width: 250px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    background-color: var(--bg-color);
+    box-shadow: 4px 4px var(--main-color);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--font-color);
+    padding: 5px 10px;
     outline: none;
-    color: var(--text);
+
+    &::placeholder {
+      color: var(--font-color-sub);
+      opacity: 0.8;
+    }
 
     &:focus {
-      border-color: var(--main);
+      border: 2px solid var(--input-focus);
     }
   }
 
-  button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: var(--main);
+  .flip-card__btn {
+    margin: 20px 0 20px 0;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    background-color: var(--bg-color);
+    box-shadow: 4px 4px var(--main-color);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--font-color);
     cursor: pointer;
-    transition: 0.5s;
-
-    &:hover {
-      background-color: #ff69b4a6;
-    }
   }
+  .flip-card__btn:active,
+  .button-confirm:active {
+    box-shadow: 0px 0px var(--main-color);
+    transform: translate(3px, 3px);
+  }
+}
 
-  div {
+.slider:before {
+  box-sizing: border-box;
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  border: 2px solid var(--main-color);
+  border-radius: 5px;
+  left: -2px;
+  bottom: 2px;
+  background-color: var(--bg-color);
+  box-shadow: 0 3px 0 var(--main-color);
+  transition: 0.3s;
+}
+
+.flip-card__inner {
+  width: 300px;
+  height: 350px;
+  position: relative;
+  background-color: transparent;
+  perspective: 1000px;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+
+  .flip-card__front,
+  .flip-card__back {
+    padding: 20px;
+    position: absolute;
     display: flex;
-    align-self: center;
+    flex-direction: column;
+    justify-content: center;
+    backface-visibility: hidden;
+    background: lightgrey;
+    gap: 20px;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    box-shadow: 4px 4px var(--main-color);
 
-    a {
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
+    .title {
+      margin: 20px 0 20px 0;
+      font-size: 25px;
+      font-weight: 900;
+      text-align: center;
+      color: var(--main-color);
+      background-color: transparent;
     }
   }
+}
+
+.toggle:checked ~ .flip-card__inner {
+  transform: rotateY(180deg);
+}
+
+.toggle:checked ~ .flip-card__front {
+  box-shadow: none;
+}
+
+.flip-card__back {
+  width: 100%;
+  transform: rotateY(180deg);
+}
+
+.flip-card__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.slider {
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  box-shadow: 4px 4px var(--main-color);
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bg-colorcolor);
+  transition: 0.3s;
+
+  .slider:before {
+    box-sizing: border-box;
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    border: 2px solid var(--main-color);
+    border-radius: 5px;
+    left: -2px;
+    bottom: 2px;
+    background-color: var(--bg-color);
+    box-shadow: 0 3px 0 var(--main-color);
+    transition: 0.3s;
+  }
+}
+
+.toggle:checked + .slider {
+  background-color: var(--input-focus);
+}
+
+.toggle:checked + .slider:before {
+  transform: translateX(30px);
+}
+
+.toggle:checked ~ .card-side:before {
+  text-decoration: none;
+}
+
+.toggle:checked ~ .card-side:after {
+  text-decoration: underline;
 }

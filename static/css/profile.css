@@ -1,64 +1,65 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
 body {
-  font-family: "Segoe UI", sans-serif;
-  background-color: #0d0d0d;
-  color: #fce4ec;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .profile-card {
   position: relative;
-  background-color: #1a1a1a;
-  border: 2px solid #ff69b4;
   border-radius: 12px;
   padding: 2rem;
   width: 320px;
   text-align: center;
-  
+  background: lightgray;
+  border: 2px solid #323232;
+  box-shadow: 4px 4px #323232;
 }
 
 .profile-pic {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 3px solid #ff69b4;
+  border: 3px solid hsla(24, 100%, 66%, 1);
   object-fit: cover;
   margin-bottom: 1rem;
+  transition: 0.5;
+
+  &:hover {
+    border: 3px solid hsla(24, 100%, 56%, 1);
+  }
 }
 
 h2 {
-  margin: 0.5rem 0;
-  color: #ffb6c1;
+  margin: 20px 0 20px 0;
+  font-size: 25px;
+  font-weight: 900;
+  text-align: center;
+  color: var(--main-color);
+  background-color: transparent;
 }
 
 p {
   font-size: 0.95rem;
-  color: #e0e0e0;
+  color: var(--font-color-sub);
 }
 
 .btn {
-  margin-top: 1rem;
-  padding: 0.6rem 1.2rem;
-  background-color: #ff69b4;
-  color: #0d0d0d;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s ease;
+  margin: 20px 0 20px 0;
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  border: 2px solid #323232;
+  box-shadow: 4px 4px #323232;
+  color: var(--font-color);
+  font-weight: 600;
+  font-size: 17px;
 
-  &:hover {
-    background-color: #ff85c1;
+  &:active {
+    box-shadow: 0px 0px var(--main-color);
+    transform: translate(3px, 3px);
   }
 }
-
 
 #backBtn {
   position: absolute;
