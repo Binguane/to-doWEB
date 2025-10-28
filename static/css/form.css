@@ -226,3 +226,7 @@ form {
 .toggle:checked ~ .card-side:after {
   text-decoration: underline;
 }
+
+.flash-message {
+  color: var(--font-color);
+}

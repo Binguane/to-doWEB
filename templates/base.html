@@ -35,7 +35,8 @@
     }
 
     function editTask(taskId) {
-      const newContent = prompt("Edit content for Task:");
+      const newContent = prompt("Edit content for Task: ");
+      newContent.value = taskText;
 
       if (newContent !== null) {
         fetch(`/edit_task/${taskId}`, {

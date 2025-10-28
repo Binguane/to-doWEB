@@ -1,33 +1,39 @@
 from app import app
-from flask import render_template, redirect, url_for, request, flash
+from flask import render_template, redirect, url_for, request, session
 from flask_login import login_user, login_required, logout_user, current_user
 from models import User, Task
 from db import db
 
+@app.route("/")
 @login_required
-def home_page(wb):
-    db.session.query(Task).all()
+def home_page():
+    tasks = db.session.query(Task).all()
     return render_template("home.html", tasks=tasks)
+
 
 @app.route("/profile/<username>")
 @login_required
 def profile_page(username):
     return render_template("profile.html")
 
+
 @app.route("/form")
 def form_page():
     return render_template("form.html")
+
 
 @app.route("/login", methods=["POST"])
 def login():
     email = request.form["email"]
     password = request.form["password"]
 
+    if not email or not password:
+        return render_template("form.html", email=email, password=password)
+    
     user = db.session.query(User).filter_by(email=email, password=password).first()
 
     if not user:
-        flash('Enter your credentials correctly!')
-        return redirect(url_for("form_page"))
+        return redirect(url_for('form_page'))
     
     login_user(user)
     return redirect(url_for("home_page"))
@@ -39,7 +45,6 @@ def signup():
     password = request.form["password"]
 
     if db.session.query(User).filter_by(email=email).first():
-        flash("Email already exists")
         return redirect(url_for("form_page"))
 
     new_user = User(username=username, email=email, password=password)
@@ -48,14 +53,13 @@ def signup():
     login_user(new_user)
 
     return redirect( url_for("home_page"))
+
     
 @app.route("/logout", methods=["POST", "GET"])
 @login_required
 def logout():
     logout_user()
-    flash("You've logged out")
     return redirect(url_for("form_page"))
-
 
 
 @app.route("/tasks", methods=["POST", "GET"])
@@ -72,7 +76,6 @@ def tasks():
     return redirect(url_for("home_page"))
 
 
-
 @app.route("/edit_task/<int:task_id>", methods=["POST"])
 @login_required
 def edit_task(task_id):
@@ -84,11 +87,11 @@ def edit_task(task_id):
 
     return redirect(url_for("home_page"))
 
+
 @app.route("/delete_task/<int:task_id>", methods=["POST"])
 @login_required
 def delete_task(task_id):
     task = db.session.query(Task).filter_by(id=task_id).first()
     db.session.delete(task)
     db.session.commit()
-
     return redirect(url_for("home_page"))
