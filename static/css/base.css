@@ -18,3 +18,29 @@
 body {
   min-height: 100vh;
 }
+
+.flashed-msg-container {
+  width: 100%;
+  position: absolute;
+  top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  width: 20%;
+  color: whitesmoke;
+  background-color: hsl(0, 100%, 70%);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.success {
+  width: 20%;
+  color: whitesmoke;
+  background-color: hsl(120, 100%, 70%);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+}

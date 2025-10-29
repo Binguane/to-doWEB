@@ -3,6 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .card-switch {
@@ -225,8 +226,4 @@ form {
 
 .toggle:checked ~ .card-side:after {
   text-decoration: underline;
-}
-
-.flash-message {
-  color: var(--font-color);
 }

@@ -4,6 +4,14 @@
   href="{{ url_for('static', filename='css/form.css') }}"
 />
 {% endblock %} {%block content %}
+
+<!--  flashed messages -->
+{% with messages = get_flashed_messages(with_categories=True)%} {% if message %}
+{% for c, m in messages %}
+
+<span class="{{c}}">{{m}}</span>
+
+{% endfor %} {% endif %} {% endwith %}
 <div class="wrapper">
   <div class="card-switch">
     <label class="switch">
@@ -35,18 +43,25 @@
         <div class="flip-card__back">
           <div class="title">Sign up</div>
           <form class="flip-card__form" action="signup" method="post">
-            <input class="flip-card__input" placeholder="Name" type="name" />
+            <input
+              class="flip-card__input"
+              placeholder="Name"
+              type="name"
+              value="{{ username }}"
+            />
             <input
               class="flip-card__input"
               name="email"
               placeholder="Email"
               type="email"
+              value="{{ email }}"
             />
             <input
               class="flip-card__input"
               name="password"
               placeholder="Password"
               type="password"
+              value="{{ password }}"
             />
             <button type="submit" class="flip-card__btn">Confirm!</button>
           </form>

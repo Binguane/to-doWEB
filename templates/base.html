@@ -10,7 +10,10 @@
     {% endblock %}
   </head>
   <body>
-    {% block content %} {% endblock %}
+    {% with messages = get_flashed_messages(with_categories=True) %} {% if
+    messages %} {% for c, m in messages %}
+    <div class="flashed-msg-container"><span class="{{c}}">{{m}}</span></div>
+    {% endfor %} {% endif %} {% endwith %} {% block content %} {% endblock %}
   </body>
 
   <!--  home page script  -->

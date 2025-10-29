@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, redirect, url_for, request, session
+from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from models import User, Task
 from db import db
@@ -27,12 +27,14 @@ def login():
     email = request.form["email"]
     password = request.form["password"]
 
-    if not email or not password:
-        return render_template("form.html", email=email, password=password)
-    
+    if not email or not email or not password:
+        flash("Please fill out all fields!", "error")
+        return redirect(url_for("form_page"))
+        
     user = db.session.query(User).filter_by(email=email, password=password).first()
 
     if not user:
+        flash("Enter your credentials correctly!", "error")
         return redirect(url_for('form_page'))
     
     login_user(user)
@@ -44,7 +46,14 @@ def signup():
     email = request.form["email"]
     password = request.form["password"]
 
-    if db.session.query(User).filter_by(email=email).first():
+    if not username or not email or not password:
+        flash("Please fill out all fields!" "error")
+        return redirect(url_for("form_page"))
+
+    existing_user = db.session.query(User).filter_by(email=email).first()
+
+    if existing_user:
+        flash("User already exists!", "error")
         return redirect(url_for("form_page"))
 
     new_user = User(username=username, email=email, password=password)
@@ -59,6 +68,7 @@ def signup():
 @login_required
 def logout():
     logout_user()
+
     return redirect(url_for("form_page"))
 
 
@@ -73,6 +83,7 @@ def tasks():
     db.session.add(task)
     db.session.commit()
 
+    flash("Task added succesfuly!", "success")
     return redirect(url_for("home_page"))
 
 
@@ -81,6 +92,7 @@ def tasks():
 def edit_task(task_id):
     data = request.get_json()
     content = data.get("content")
+    
     task = db.session.query(Task).filter_by(id=task_id).first()
     task.task = content
     db.session.commit()
@@ -94,4 +106,5 @@ def delete_task(task_id):
     task = db.session.query(Task).filter_by(id=task_id).first()
     db.session.delete(task)
     db.session.commit()
+
     return redirect(url_for("home_page"))
