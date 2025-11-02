@@ -22,7 +22,7 @@ def form_page():
     return render_template("form.html")
 
 
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["POST", "GET"])
 def login():
     email = request.form["email"]
     password = request.form["password"]
@@ -40,7 +40,7 @@ def login():
     login_user(user)
     return redirect(url_for("home_page"))
 
-@app.route("/signup", methods=["POST"])
+@app.route("/signup", methods=["POST", "GET"])
 def signup():
     username = request.form["username"]
     email = request.form["email"]
