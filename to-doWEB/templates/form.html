@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/form.css">
+    <script src="/static/scripts.js" defer></script>
+</head>
+<body>
+    <div class="wrapper">
+        <form action="/" method="POST" class="log-in-form hidden" id="signUp">
+            <h2>sign-Up</h2>
+            <input type="text" class="" id="" name="fname" placeholder="First Name">
+            <input type="text" class="" id="" name="lname" placeholder="Last Name">
+            <input type="email" class="" id="" name="email" placeholder="Email">
+            <input type="password" class="" id="" name="password" placeholder="Password">
+            <input type="submit" value="Sign-Up" class="submit-btn">
+            <div class="footer">
+                <p>Already have an account?</p>
+                <a href="" onclick="showLogIn()">Log-In</a>
+            </div>
+        </form>
+        <form action="/" method="POST" id="logIn">
+            <h2>Log In</h2>
+            <input type="email" class="" id="" name="email" placeholder="Email">
+            <input type="password" class="" id="" name="password" placeholder="Password">
+            <input type="submit" value="Log-In" class="submit-btn">
+            <div class="footer">
+                <p>Don't have an account</p>
+                <a href="login" onclick="showSignUp()">Sign-Up</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
