@@ -1,0 +1,19 @@
+.search__container {
+  box-shadow: 1px 1px 5px;
+  width: 440px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+}
+
+.search__logo {
+  color: var(--text-p);
+}
+
+.search__input {
+  padding: 12px 24px;
+  width: 100%;
+  background: transparent;
+  outline: none;
+}
